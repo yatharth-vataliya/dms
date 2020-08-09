@@ -20,6 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/{view}',function($view){
-  return view($view);
-});
+
+Route::resource('/file','FileController');

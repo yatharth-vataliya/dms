@@ -6,25 +6,49 @@ Home
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
+    <div class="row">
+        <div class="col">
+            <div class="card border-primary">
+                <div class="card-header">
+                    Heading Here
+                </div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    Body Here
+                </div>
+                <div class="card-footer">
+                    Footer Goes Here
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-primary">
+                <div class="card-header">
+                    Heading Here
+                </div>
+                <div class="card-body">
+                    Body Here
+                </div>
+                <div class="card-footer">
+                    Footer Goes Here
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-primary">
+                <div class="card-header">
+                    Heading Here
+                </div>
+                <div class="card-body">
+                    Body Here
+                </div>
+                <div class="card-footer">
+                    Footer Goes Here
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 
 @endsection
