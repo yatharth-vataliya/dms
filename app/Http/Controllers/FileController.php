@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -12,8 +14,19 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if($request->ajax()){
+
+            $files = Storage::files(Auth::user()->dir_name);
+            $directories = Storage::directories(Auth::user()->dir_name);
+            return response()->json([
+                'files' => $files,
+                'directories' => $directories
+            ]);
+        }
+
         return view('file.index');
     }
 
@@ -24,7 +37,7 @@ class FileController extends Controller
      */
     public function create()
     {
-        //
+        return "Hey File";
     }
 
     /**

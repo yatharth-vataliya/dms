@@ -10,7 +10,7 @@
   <title>@yield('title')</title>
 
   <!-- Scripts -->
-  <script src="{{ asset('js/app.js') }}" defer></script>
+  <script src="{{ asset('js/app.js') }}" defer async></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,7 +21,7 @@
   @yield('styles')
 </head>
 <body>
-  <div>
+  <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">

@@ -9,13 +9,16 @@ File Handling
 @endsection
 
 @section('content')
-<div id="file-upload-component" class="container">
-	<file-upload-component></file-upload-component>
+<div id="file-upload-component" class="container-fluid">
+	<file-component v-bind:action="action"></file-component>
 </div>
 @endsection
 
 
 @section('scripts')
-
+<script>
+	window.MainUrl = '{{ url("/") }}';
+	window.FileCreateUrl = '{{ route("file.create") }}';
+</script>
 
 @endsection
