@@ -5,11 +5,17 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
-        </div>
+    <div class="bg-white p-2 mt-2 rounded-lg shadow-sm container mx-auto">
+        <x-card-component>
+            <x-slot name="card_header">
+                Just Card Header
+            </x-slot>
+            <x-slot name="card_body">
+                Just Card Body
+            </x-slot>
+            <x-slot name="card_footer">
+                Just Card Footer
+            </x-slot>
+        </x-card-component>
     </div>
 </x-app-layout>
