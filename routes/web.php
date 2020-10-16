@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessController;
+use App\Http\Controllers\FileController;
+use App\Http\Livewire\FileHandling;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,5 +21,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 	Route::view('/dashboard','dashboard')->name('dashboard');
-	Route::resource('access',AccessController::class);
+	Route::resource('/access',AccessController::class);
+	// Route::resource('/file',FileController::class);
+	Route::get('/file/index',FileHandling::class)->name('file.index');
 });
