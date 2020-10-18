@@ -71,7 +71,7 @@ return [
 
     'temporary_file_upload' => [
         'disk' => null,        // Example: 'local', 's3'              Default: 'default'
-        'rules' =>null, // ['file','max:512000','mimes:sql,SQL,exe,deb,zip,docx,doc,ppt,pptx,xlsx,jpg,JPG,JPEG,jpeg,png,PNG,exe',],       // Example: ['file', 'mimes:png,jpg']  Default: ['required', 'file', 'max:12288'] (12MB)
+        'rules' =>'required|max:512000|mimes:sql,SQL,exe,deb,zip,docx,doc,ppt,pptx,xlsx,jpg,JPG,JPEG,jpeg,png,PNG,exe',       // Example: ['file', 'mimes:png,jpg']  Default: ['required', 'file', 'max:12288'] (12MB)
         'directory' => null,   // Example: 'tmp'                      Default  'livewire-tmp'
         'middleware' => null,  // Example: 'throttle:5,1'             Default: 'throttle:60,1'
     ],
