@@ -62,9 +62,8 @@
     </div>
     <div class="p-4 bg-green-100 mb-2 shadow grid grid-cols-8">
         @foreach($directories as $dir)
-            <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow">
-                <label for="" class="text-center break-words cursor-pointer"
-                       wire:click="changeDir('{{ encrypt($dir) }}')">
+            <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow" wire:click="changeDir('{{ encrypt($dir) }}')">
+                <label for="" class="text-center break-words cursor-pointer">
                     @php
                         $dir_array = explode('/',$dir);
                         $dir_name = end($dir_array);
