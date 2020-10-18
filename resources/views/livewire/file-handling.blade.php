@@ -62,7 +62,8 @@
     </div>
     <div class="p-4 bg-green-100 mb-2 shadow grid grid-cols-8">
         @foreach($directories as $dir)
-            <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow" wire:click="changeDir('{{ encrypt($dir) }}')">
+            <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow"
+                 wire:click="changeDir('{{ encrypt($dir) }}')">
                 <label for="" class="text-center break-words cursor-pointer">
                     @php
                         $dir_array = explode('/',$dir);
@@ -85,11 +86,28 @@
                     @php
                         $file_array = explode('/',$file);
                         $file_name = end($file_array);
+                        $file_model = \App\Models\File::select(['file_name'])->where('file_url', 'like', '%'.$file_name.'%')->first();
                     @endphp
-                    {{ $file_name }} <span class="bg-yellow-500 rounded">{{ number_format(\Illuminate\Support\Facades\Storage::size($file) / 1024 /1024,2) }} MB </span>
+                    {{ $file_model->file_name }}
                 </label>
-                <div class="bg-red-500 shadow p-2 rounded hover:shadow-md">
-                    <span wire:click="downloadFile('{{ $file }}')" class="text-white cursor-pointer">Download</span>
+                <div class="rounded bg-white text-black text-center">
+                    {{ number_format(\Illuminate\Support\Facades\Storage::size($file) / 1024 /1024,2) }} MB
+                </div>
+                <div class="bg-red-500 shadow p-2 rounded hover:shadow-md text-center flex">
+                    <span wire:click="downloadFile('{{ $file }}')" class="text-white cursor-pointer flex-1">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                      clip-rule="evenodd"/>
+                         </svg>
+                    </span>
+                    <span class="flex-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                      clip-rule="evenodd"/>
+                        </svg>
+                    </span>
                 </div>
             </div>
         @endforeach
