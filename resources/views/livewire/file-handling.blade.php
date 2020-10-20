@@ -15,24 +15,24 @@
         </div>
     @endif
     <div class="text-center grid grid-cols-2">
-        <form enctype="multipart/form-data" id="user_file_form" wire:submit.prevent="uploadDocument">
-            <input type="file" style="display: none;" id="file_input" wire:model="documents" multiple>
+        <form enctype="multipart/form-data" data-turbolinks="false" id="user_file_form" wire:submit.prevent="uploadDocument">
+            <input data-turbolinks="false" type="file" style="display: none;" id="file_input" wire:model="documents" multiple>
             <button
                 class="bg-blue-700 rounded p-2 text-lg text-white hover:text-gray-700 hover:bg-white hover:shadow-md focus:outline-none transition duration-300 ease-in-out"
-                type="button" onclick="document.getElementById('file_input').click();">Upload File
+                type="button" onclick="document.getElementById('file_input').click();" data-turbolinks="false">Upload File
             </button>
             <button type="submit"
-                    class="p-2 mr-1 text-lg bg-green-700 text-white hover:bg-white hover:text-black rounded hover:shadow-md focus:outline-none transition duration-300 ease-in-out">
+                    class="p-2 mr-1 text-lg bg-green-700 text-white hover:bg-white hover:text-black rounded hover:shadow-md focus:outline-none transition duration-300 ease-in-out" data-turbolinks="false">
                 Submit
             </button>
         </form>
-        <form wire:submit.prevent="createFolder">
+        <form data-turbolinks="false" wire:submit.prevent="createFolder">
             <label for="folder_name" class="text-lg">Create Folder </label>
             <input type="text" name="folder_name" id="folder_name" wire:model.debounce.500ms="folder_name"
                    class="focus:outline-none focus:shadow-outline-green p-2 rounded bg-green-300 text-black focus:bg-white w-64 placeholder-green-700"
-                   placeholder="Enter Folder Name">
+                   placeholder="Enter Folder Name" data-turbolinks="false">
             <button type="submit"
-                    class="p-2 mr-1 text-lg bg-green-700 text-white hover:bg-white hover:text-black rounded hover:shadow-md focus:outline-none transition duration-300 ease-in-out">
+                    class="p-2 mr-1 text-lg bg-green-700 text-white hover:bg-white hover:text-black rounded hover:shadow-md focus:outline-none transition duration-300 ease-in-out" data-turbolinks="false">
                 Create
             </button>
         </form>
@@ -52,7 +52,7 @@
         </div>
         @if(!empty(trim(substr($dir,$chars,),'/')))
             <div class="w-10 h-10 bg-green-500 rounded-full shadow hover:shadow-md hover:bg-green-400"
-                 wire:click="rewind">
+                 data-turbolinks="false" wire:click="rewind">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         d="M8.445 14.832A1 1 0 0010 14v-2.798l5.445 3.63A1 1 0 0017 14V6a1 1 0 00-1.555-.832L10 8.798V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4z"/>
@@ -64,7 +64,7 @@
         <div class="p-4 bg-green-100 mb-2 shadow grid grid-cols-8">
             @foreach($directories as $dir)
                 <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow">
-                    <a wire:click.prevent="changeDir('{{ encrypt($dir) }}')">
+                    <a data-turbolinks="false"  wire:click.prevent="changeDir('{{ encrypt($dir) }}')">
                         <label for="" class="text-center break-words cursor-pointer">
                             @php
                                 $dir_array = explode('/',$dir);
@@ -76,7 +76,7 @@
                             <span class="text-green-700">{{ $dir_name }}</span>
                         </label>
                     </a>
-                    <a href="#" class="hover:shadow-md rounded hover:bg-white"
+                    <a data-turbolinks="false" href="#" class="hover:shadow-md rounded hover:bg-white"
                        wire:click.prevent="deleteDirectory('{{ encrypt($dir) }}')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
@@ -104,15 +104,15 @@
                         {{ number_format(\Illuminate\Support\Facades\Storage::size($file) / 1024 /1024,2) }} MB
                     </div>
                     <div class="bg-red-500 shadow p-2 rounded hover:shadow-md text-center flex">
-                    <span wire:click="downloadFile('{{ encrypt($file) }}')"
+                    <a data-turbolinks="false" wire:click.prevent="downloadFile('{{ encrypt($file) }}')"
                           class="text-white hover:bg-white hover:text-black rounded cursor-pointer flex-1">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                       d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
                                       clip-rule="evenodd"/>
                          </svg>
-                    </span>
-                        <a href="#" class="flex-1 hover:shadow-md rounded hover:bg-white"
+                    </a>
+                        <a data-turbolinks="false" href="#" class="flex-1 hover:shadow-md rounded hover:bg-white"
                            wire:click.prevent="deleteFile('{{ encrypt($file_model->id) }}')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -127,7 +127,7 @@
     @endif
     @if(count($files) > 0)
         <div class="p-2 my-2 shadow rounded bg-white">
-            <input type="text" name="search" id="search" wire:model="search"
+            <input type="text" name="search" data-turbolinks="false" id="search" wire:model="search"
                    class="focus:outline-none focus:shadow-outline-green p-2 rounded bg-green-300 text-black focus:bg-white w-64 placeholder-green-700"
                    placeholder="Search File Here">
         </div>
@@ -141,7 +141,7 @@
                     </div>
                     <div class="p-2 bg-gray-300 rounded-md">
                         <div class="grid grid-cols-4">
-                            <a href="{{ \Illuminate\Support\Facades\Storage::url($file->file_url) }}"
+                            <a data-turbolinks="false" href="{{ \Illuminate\Support\Facades\Storage::url($file->file_url) }}"
                                download="{{ $file->file_name }}"
                                class="hover:shadow-md rounded hover:bg-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -150,7 +150,7 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             </a>
-                            <a href="#" class="hover:shadow-md rounded hover:bg-white"
+                            <a data-turbolinks="false" href="#" class="hover:shadow-md rounded hover:bg-white"
                                wire:click.prevent="deleteFile('{{ encrypt($file->id) }}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd"

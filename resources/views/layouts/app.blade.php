@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="turbolinks-cache-control" content="no-cache">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/profile/profile.png') }}">
     <title>{{ config('app.name', 'DMS') }}</title>
 
@@ -28,6 +29,7 @@
     </style>
     <!-- Scripts -->
     <script src="{{ asset('js/alpine.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body class="font-sans antialiased">
 <div class="progress-bar"></div>
