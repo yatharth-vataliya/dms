@@ -5,16 +5,16 @@
         </h2>
     </x-slot>
 
-    <div class="bg-white p-2 mt-2 rounded-lg shadow-sm container mx-auto">
+    <div class="p-2 mt-2 rounded-lg shadow-sm container mx-auto">
         <x-card-component>
             <x-slot name="card_header">
-                Just Card Header
+                Total Files {{ $files_count }}
             </x-slot>
             <x-slot name="card_body">
-                Just Card Body
+                Total used space {{ $total_size }} MB
             </x-slot>
             <x-slot name="card_footer">
-                Just Card Footer
+                Your Storage Limit {{ auth()->user()->storage_limit }} GB
             </x-slot>
         </x-card-component>
     </div>

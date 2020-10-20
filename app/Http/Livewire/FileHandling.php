@@ -19,6 +19,18 @@ class FileHandling extends Component
     public $directories = '';
     public $all_files = '';
 
+    public function updatedDocuments(){
+        $this->validate([
+//            'documents.*' => 'required|max:512000|mimes:jpg,jpeg,JPG,svg,JPEG,png,PNG,xlsx,doc,docx,zip,pdf,csv,mp4,MP4,mp3,mkv,avi,gif,tar,3gp'
+            'documents.*' => 'required|max:512000|mimetypes:video/avi,video/mpeg,video/mp4,video/avi,video/mkv,audio/mpeg,image/png,image/jpeg,image/jpg,application/pdf,application/zip,application/vnd.openofficeorg.extension,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/x-sql,text/plain'
+        ], [
+            'documents.*.mimetypes' => 'The :attribute have no valid type please upload valid file type.',
+            'documents.*.max' => 'The :attribute max size is out of range please make sure file size is below 500 MB'
+        ], [
+            'documents.*' => 'Uploaded File'
+        ]);
+    }
+
     public function updated($property)
     {
         $this->validateOnly($property, [
@@ -34,9 +46,10 @@ class FileHandling extends Component
     public function uploadDocument()
     {
         $this->validate([
-            'documents.*' => 'required|max:512000|mimes:sql,SQL,jpg,jpeg,JPG,JPEG,png,PNG,xlsx,doc,docx,zip,pdf,csv,mp4,mp3,mkv,avi,gif,exe,deb,tar,3gp'
+//            'documents.*' => 'required|max:512000|mimes:jpg,jpeg,JPG,svg,JPEG,png,PNG,xlsx,doc,docx,zip,pdf,csv,mp4,MP4,mp3,mkv,avi,gif,tar,3gp'
+            'documents.*' => 'required|max:512000|mimetypes:video/avi,video/mpeg,video/mp4,video/avi,video/mkv,audio/mpeg,image/png,image/jpeg,image/jpg,application/pdf,application/zip,application/vnd.openofficeorg.extension,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/x-sql,text/plain'
         ], [
-            'documents.*.mimes' => 'The :attribute have no valid type please upload valid file type.',
+            'documents.*.mimetypes' => 'The :attribute have no valid type please upload valid file type.',
             'documents.*.max' => 'The :attribute max size is out of range please make sure file size is below 500 MB'
         ], [
             'documents.*' => 'Uploaded File'
@@ -95,7 +108,7 @@ class FileHandling extends Component
 
     public function downloadFile($filename = NULL)
     {
-        return Storage::download($filename);
+        return Storage::download(decrypt($filename));
     }
 
     public function changeDir($dir = NULL)
