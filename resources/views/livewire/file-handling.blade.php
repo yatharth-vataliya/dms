@@ -63,18 +63,27 @@
     @if(count($directories) > 0 || count($all_files) > 0)
         <div class="p-4 bg-green-100 mb-2 shadow grid grid-cols-8">
             @foreach($directories as $dir)
-                <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow"
-                     wire:click="changeDir('{{ encrypt($dir) }}')">
-                    <label for="" class="text-center break-words cursor-pointer">
-                        @php
-                            $dir_array = explode('/',$dir);
-                            $dir_name = end($dir_array);
-                        @endphp
+                <div class="w-28 h-38 rounded hover:bg-white p-2 m-2 hover:shadow-md shadow">
+                    <a wire:click.prevent="changeDir('{{ encrypt($dir) }}')">
+                        <label for="" class="text-center break-words cursor-pointer">
+                            @php
+                                $dir_array = explode('/',$dir);
+                                $dir_name = end($dir_array);
+                            @endphp
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
+                            </svg>
+                            <span class="text-green-700">{{ $dir_name }}</span>
+                        </label>
+                    </a>
+                    <a href="#" class="hover:shadow-md rounded hover:bg-white"
+                       wire:click.prevent="deleteDirectory('{{ encrypt($dir) }}')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
+                            <path fill-rule="evenodd"
+                                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                  clip-rule="evenodd"/>
                         </svg>
-                        <span class="text-green-700">{{ $dir_name }}</span>
-                    </label>
+                    </a>
                 </div>
             @endforeach
             @foreach($all_files as $file)
@@ -87,7 +96,7 @@
                         @php
                             $file_array = explode('/',$file);
                             $file_name = end($file_array);
-                            $file_model = \App\Models\File::select(['file_name'])->where('file_url', 'like', '%'.$file_name.'%')->first();
+                            $file_model = \App\Models\File::where('file_url', 'like', '%'.$file_name.'%')->first();
                         @endphp
                         {{ $file_model->file_name }}
                     </label>
@@ -95,20 +104,22 @@
                         {{ number_format(\Illuminate\Support\Facades\Storage::size($file) / 1024 /1024,2) }} MB
                     </div>
                     <div class="bg-red-500 shadow p-2 rounded hover:shadow-md text-center flex">
-                    <span wire:click="downloadFile('{{ encrypt($file) }}')" class="text-white cursor-pointer flex-1">
+                    <span wire:click="downloadFile('{{ encrypt($file) }}')"
+                          class="text-white hover:bg-white hover:text-black rounded cursor-pointer flex-1">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                       d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
                                       clip-rule="evenodd"/>
                          </svg>
                     </span>
-                        <span class="flex-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <a href="#" class="flex-1 hover:shadow-md rounded hover:bg-white"
+                           wire:click.prevent="deleteFile('{{ encrypt($file_model->id) }}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                       d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                                       clip-rule="evenodd"/>
-                        </svg>
-                    </span>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             @endforeach
@@ -139,7 +150,8 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             </a>
-                            <a href="#" class="hover:shadow-md rounded hover:bg-white">
+                            <a href="#" class="hover:shadow-md rounded hover:bg-white"
+                               wire:click.prevent="deleteFile('{{ encrypt($file->id) }}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd"
                                           d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"

@@ -11,7 +11,7 @@
                 Total Files {{ $files_count }}
             </x-slot>
             <x-slot name="card_body">
-                Total used space {{ $total_size }} MB
+                Total used space {{ $total_size ?? 0 }} MB
             </x-slot>
             <x-slot name="card_footer">
                 Your Storage Limit {{ auth()->user()->storage_limit }} GB

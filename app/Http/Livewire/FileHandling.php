@@ -19,7 +19,8 @@ class FileHandling extends Component
     public $directories = '';
     public $all_files = '';
 
-    public function updatedDocuments(){
+    public function updatedDocuments()
+    {
         $this->validate([
 //            'documents.*' => 'required|max:512000|mimes:jpg,jpeg,JPG,svg,JPEG,png,PNG,xlsx,doc,docx,zip,pdf,csv,mp4,MP4,mp3,mkv,avi,gif,tar,3gp'
             'documents.*' => 'required|max:512000|mimetypes:video/avi,video/mpeg,video/mp4,video/avi,video/mkv,audio/mpeg,image/png,image/jpeg,image/jpg,application/pdf,application/zip,application/vnd.openofficeorg.extension,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/x-sql,text/plain'
@@ -111,18 +112,57 @@ class FileHandling extends Component
         return Storage::download(decrypt($filename));
     }
 
+    public function deleteFile($id = NULL)
+    {
+        if ($id != NULL) {
+            $id = decrypt($id);
+            $file = File::find($id);
+//            $path = storage_path("app/{$file->file_url}");
+//            $check = unlink($path);
+            $check = Storage::delete($file->file_url);
+            if ($check) {
+                $file->delete();
+                $this->directories = Storage::directories($this->dir);
+                $this->all_files = Storage::files($this->dir);
+                session()->flash('info', 'File Successfully deleted.');
+            } else {
+                session()->flash('info', 'Something went wront please try again.');
+            }
+        }
+    }
+
+    public function deleteDirectory($dir = NULL)
+    {
+        if ($dir != NULL) {
+            $dir = decrypt($dir);
+            $is_dir_empty = Storage::allFiles($dir);
+            if($is_dir_empty == NUll || $is_dir_empty == []){
+                $check = Storage::deleteDirectory($dir);
+                if ($check) {
+                    $this->directories = Storage::directories($this->dir);
+                    $this->all_files = Storage::files($this->dir);
+                    session()->flash('info', 'Directory Successfully deleted.');
+                }
+            }else{
+                session()->flash("info", "Sorry Directory is not deleted because it's contains some files. first delete all of them and try again Successfully deleted.");
+            }
+        }
+    }
+
     public function changeDir($dir = NULL)
     {
-        $this->dir = decrypt($dir) . '/';
-        $this->directories = Storage::directories($this->dir);
-        $this->all_files = Storage::files($this->dir);
+        if ($dir != NULL) {
+            $this->dir = decrypt($dir) . '/';
+            $this->directories = Storage::directories($this->dir);
+            $this->all_files = Storage::files($this->dir);
+        }
     }
 
     public function rewind()
     {
-        $dir_array = explode('/',trim($this->dir,'/'));
+        $dir_array = explode('/', trim($this->dir, '/'));
         array_pop($dir_array);
-        $this->dir = implode('/',$dir_array) .'/';
+        $this->dir = implode('/', $dir_array) . '/';
         $this->directories = Storage::directories($this->dir);
         $this->all_files = Storage::files($this->dir);
     }
